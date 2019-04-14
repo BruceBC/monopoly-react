@@ -2,13 +2,13 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 // Components
-import App from '../../App'
+import Game from '../../game'
 
 const routes = [
   {
     exact: true,
     path: '/',
-    component: App,
+    component: Game,
     title: 'Home',
   },
 ]
