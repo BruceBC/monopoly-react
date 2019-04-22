@@ -3,13 +3,18 @@ import { Route } from 'react-router-dom'
 
 // Components
 import Game from '../../game'
+import NotFound from '../../notFound'
+import Start from '../../start'
 
 const routes = [
   {
     exact: true,
     path: '/',
-    component: Game,
+    component: Start,
     title: 'Home',
+  },
+  {
+    component: NotFound,
   },
 ]
 
