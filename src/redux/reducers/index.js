@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux-starter-kit'
+import auth from './auth'
 
-const sample = (state = {}, action) => state
-
-export default combineReducers({ sample })
+export default combineReducers({ auth })
