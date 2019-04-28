@@ -5,11 +5,12 @@ import { Route, Redirect } from 'react-router-dom'
 import Auth from '../../containers/authContainer'
 import Game from '../../game'
 import Lobby from '../../containers/lobbyContainer'
-import Register from '../../containers/registerContainer'
 import Login from '../../containers/loginContainer'
 import NotFound from '../../notFound'
+import Register from '../../containers/registerContainer'
 import Start from '../../containers/startContainer'
 import Test from '../../containers/testContainer'
+import Sessions from '../../containers/sessionsContainer'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -38,16 +39,22 @@ const routes = [
     private: true,
   },
   {
+    path: '/login',
+    component: Login,
+    title: 'Login',
+    private: false,
+  },
+  {
     path: '/register',
     component: Register,
     title: 'Register',
     private: false,
   },
   {
-    path: '/login',
-    component: Login,
-    title: 'Login',
-    private: false,
+    path: '/sessions',
+    component: Sessions,
+    title: 'Sessions',
+    private: true,
   },
   {
     path: '/test',
