@@ -1,20 +1,31 @@
 import { session } from '../types'
 
 const init = {
-  session: '',
+  current: '', // current session
+  all: [], // all sessions
 }
 
 export default (state = init, action) => {
   switch (action.type) {
+    case session.all.success:
+      return {
+        ...state,
+        all: action.payload,
+      }
+    case session.all.failure:
+      return {
+        ...state,
+        all: [],
+      }
     case session.create.success:
       return {
         ...state,
-        session: action.payload.code,
+        current: action.payload.code,
       }
     case session.create.failure:
       return {
         ...state,
-        session: '',
+        current: '',
       }
     default:
       return state

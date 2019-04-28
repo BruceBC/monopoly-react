@@ -11,8 +11,13 @@ const auth = {
 const session = {
   create: {
     request: 'SESSION/CREATE_REQUEST',
-    success: 'SESSION/SUCCESS_REQUEST',
-    failure: 'SESSION/FAILURE_REQUEST',
+    success: 'SESSION/CREATE_SUCCESS',
+    failure: 'SESSION/CREATE_FAILURE',
+  },
+  all: {
+    request: 'SESSION/ALL_REQUEST',
+    success: 'SESSION/ALL_SUCCESS',
+    failure: 'SESSION/ALL_FAILURE',
   },
 }
 

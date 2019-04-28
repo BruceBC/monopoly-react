@@ -30,6 +30,7 @@ function* networkCall(action) {
 export default function* watchNetworkCall() {
   yield all([
     takeLatest(auth.authorize.request, networkCall),
+    takeLatest(session.all.request, networkCall),
     takeLatest(session.create.request, networkCall),
     takeLatest(user.create.request, networkCall),
     takeLatest(user.fetch.request, networkCall),

@@ -14,4 +14,15 @@ const create = ({ invites }, ...callbacks) => ({
   callbacks,
 })
 
-export { create }
+const all = (...callbacks) => ({
+  type: session.all.request,
+  success: session.all.success,
+  failure: session.all.failure,
+  request: {
+    url: 'sessions',
+    method: 'get',
+  },
+  callbacks,
+})
+
+export { create, all }
