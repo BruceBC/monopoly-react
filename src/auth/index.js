@@ -16,6 +16,7 @@ class Auth extends PureComponent {
   handleFailure = () => {
     // Log user out and clear any credentials
     this.props.actions.auth.reject()
+    this.props.events.auth.rejected()
 
     this.props.history.replace('/login')
   }

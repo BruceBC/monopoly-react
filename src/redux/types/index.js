@@ -8,6 +8,14 @@ const auth = {
   reject: 'AUTH/REJECT',
 }
 
+const session = {
+  create: {
+    request: 'SESSION/CREATE_REQUEST',
+    success: 'SESSION/SUCCESS_REQUEST',
+    failure: 'SESSION/FAILURE_REQUEST',
+  },
+}
+
 const user = {
   create: {
     request: 'USER/CREATE_REQUEST',
@@ -21,4 +29,4 @@ const user = {
   },
 }
 
-export { auth, user }
+export { auth, session, user }

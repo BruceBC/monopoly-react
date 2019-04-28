@@ -1,12 +1,13 @@
 import { call, takeLatest, put, all } from 'redux-saga/effects'
+import { callbacks } from '../../../shared/sagas'
 import makeRequest from './request'
 
 // Types
-import { auth, user } from '../../types'
+import { auth, session, user } from '../../types'
 
-function* networkCall(actions) {
-  const { success, failure, request, callbacks } = actions
-  const [successCB, failureCB] = callbacks || [() => {}, () => {}]
+function* networkCall(action) {
+  const { success, failure, request } = action
+  const [successCB, failureCB] = callbacks(action)
 
   try {
     const response = yield call(makeRequest, request)
@@ -28,8 +29,9 @@ function* networkCall(actions) {
 // watchers
 export default function* watchNetworkCall() {
   yield all([
+    takeLatest(auth.authorize.request, networkCall),
+    takeLatest(session.create.request, networkCall),
     takeLatest(user.create.request, networkCall),
     takeLatest(user.fetch.request, networkCall),
-    takeLatest(auth.authorize.request, networkCall),
   ])
 }

@@ -22,7 +22,16 @@ const Registration = props => {
 
     props.requests.auth.authorize(
       { username, password },
-      () => props.history.push('/lobby'),
+      () => {
+        props.events.auth.authorized(
+          () => {
+            props.history.push('/lobby')
+          },
+          () => {
+            console.log('Failed to connect to web socket.')
+          }
+        )
+      },
       error => console.log(error)
     )
   }

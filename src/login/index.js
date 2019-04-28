@@ -16,7 +16,14 @@ const Login = props => {
   }, [])
 
   const handleAuthorizeSuccess = () => {
-    props.history.push('/lobby')
+    props.events.auth.authorized(
+      () => {
+        props.history.push('/lobby')
+      },
+      () => {
+        console.log('Failed to connect to web socket.')
+      }
+    )
   }
 
   const handleAuthorizeFailure = error => {
@@ -46,6 +53,7 @@ const Login = props => {
 
   const handleLogout = e => {
     props.actions.auth.reject()
+    props.events.auth.rejected()
 
     setAuthorized(false)
 

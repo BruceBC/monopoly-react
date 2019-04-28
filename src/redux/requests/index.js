@@ -1,4 +1,5 @@
-import * as user from '../requests/user'
 import * as auth from '../requests/auth'
+import * as session from '../requests/session'
+import * as user from '../requests/user'
 
-export { user, auth }
+export { auth, session, user }

@@ -4,6 +4,7 @@ import Login from '../login'
 import { bindActionCreator } from '../redux'
 import { user, auth as authRequest } from '../redux/requests'
 import { auth as authAction } from '../redux/actions'
+import { auth as authEvent } from '../redux/events'
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -21,6 +22,12 @@ const mapDispatchToProps = dispatch => ({
   actions: {
     auth: {
       reject: bindActionCreator(authAction.reject, dispatch),
+    },
+  },
+  events: {
+    auth: {
+      authorized: bindActionCreator(authEvent.authorized, dispatch),
+      rejected: bindActionCreator(authEvent.rejected, dispatch),
     },
   },
 })
