@@ -1,12 +1,12 @@
 import { auth } from '../types'
 
-const authorize = ({ accessToken, createdAt, expiresAt }) => ({
-  type: auth.authorize,
+const reject = () => ({
+  type: auth.reject,
   payload: {
-    accessToken,
-    createdAt,
-    expiresAt,
+    accessToken: '',
+    createdAt: '',
+    expiresAt: '',
   },
 })
 
-export { authorize }
+export { reject }
