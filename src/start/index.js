@@ -1,11 +1,15 @@
 import React, { memo } from 'react'
+import { string } from '../shared/utils'
 
 const Start = props => {
   const handleStart = () => {
-    const isAuthorized = true
-    const routeTo = isAuthorized ? '/lobby' : '/login'
+    const authorized = !string.isEmpty(props.auth.accessToken)
 
-    props.history.push(routeTo)
+    if (authorized) {
+      props.history.push('/lobby')
+    } else {
+      props.history.push('/login')
+    }
   }
 
   return (

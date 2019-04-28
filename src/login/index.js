@@ -1,17 +1,27 @@
 import React, { memo, useState, useEffect } from 'react'
-import axiosRaw from 'axios'
-
-const axios = axiosRaw.create({
-  baseURL: 'http://localhost:8000/api/',
-  timeout: 1000,
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-  },
-})
+import { Link } from 'react-router-dom'
+import { string } from '../shared/utils'
 
 const Login = props => {
+  // State
+  const [loaded, setLoaded] = useState(false)
+  const [authorized, setAuthorized] = useState(false)
   const [login, setLogin] = useState({ email: '', password: '' })
+
+  // Lifecycle
+  useEffect(() => {
+    // Check if user is currently logged in
+    setAuthorized(!string.isEmpty(props.auth.accessToken))
+    setLoaded(true)
+  }, [])
+
+  const handleAuthorizeSuccess = () => {
+    props.history.push('/lobby')
+  }
+
+  const handleAuthorizeFailure = error => {
+    console.log(error)
+  }
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -25,33 +35,25 @@ const Login = props => {
   const handleLogin = e => {
     const { email: username, password } = login
 
-    axios
-      .request({
-        url: 'accessTokens',
-        method: 'post',
-        auth: {
-          username: username,
-          password: password,
-        },
-      })
-      .then(({ data }) => data)
-      .then(({ accessToken, token }) => {
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('createdAt', token.createdAt)
-        localStorage.setItem('expiresAt', token.expiresAt)
-        return {
-          accessToken,
-          createdAt: token.createdAt,
-          expiresAt: token.expiresAt,
-        }
-      })
-      .then(({ accessToken, createdAt, expiresAt }) =>
-        props.authorize({ accessToken, createdAt, expiresAt })
-      )
-      //.then(() => props.history.push('/lobby'))
-      .catch(error => console.log(error))
+    props.requests.auth.authorize(
+      { username, password },
+      handleAuthorizeSuccess,
+      handleAuthorizeFailure
+    )
 
     e.preventDefault()
+  }
+
+  const handleLogout = e => {
+    props.actions.auth.reject()
+
+    setAuthorized(false)
+
+    e.preventDefault()
+  }
+
+  if (!loaded) {
+    return null
   }
 
   return (
@@ -68,33 +70,49 @@ const Login = props => {
         textAlign: 'center',
       }}
     >
-      <h3>Login</h3>
-      <form
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          autoComplete="email"
-          required
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-          onChange={handleChange}
-        />
-        <button type="submit" onClick={handleLogin}>
-          Submit
-        </button>
-      </form>
+      {authorized ? (
+        <>
+          <h3>Logout</h3>
+          <form>
+            <button type="submit" onClick={handleLogout}>
+              Logout
+            </button>
+          </form>
+        </>
+      ) : (
+        <>
+          <h3>Login</h3>
+          <form
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+            }}
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              autoComplete="email"
+              required
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              onChange={handleChange}
+            />
+            <button type="submit" onClick={handleLogin}>
+              Submit
+            </button>
+          </form>
+          <div>
+            or <Link to="/register">Register</Link>
+          </div>
+        </>
+      )}
     </div>
   )
 }

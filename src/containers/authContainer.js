@@ -1,9 +1,9 @@
+import { bindActionCreator } from '../redux'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Login from '../login'
-import { bindActionCreator } from '../redux'
-import { user, auth as authRequest } from '../redux/requests'
-import { auth as authAction } from '../redux/actions'
+import Auth from '../auth'
+import { user } from '../redux/requests'
+import { auth } from '../redux/actions'
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -14,13 +14,10 @@ const mapDispatchToProps = dispatch => ({
     users: {
       fetch: bindActionCreator(user.fetch, dispatch),
     },
-    auth: {
-      authorize: bindActionCreator(authRequest.authorize, dispatch),
-    },
   },
   actions: {
     auth: {
-      reject: bindActionCreator(authAction.reject, dispatch),
+      reject: bindActionCreator(auth.reject, dispatch),
     },
   },
 })
@@ -29,5 +26,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Login)
+  )(Auth)
 )
